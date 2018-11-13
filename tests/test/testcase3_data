@@ -1,0 +1,4 @@
+<directory filePath="C:/TDD_testdir/dir3" fileName="dir3">
+ <directory filePath="C:/TDD_testdir/dir3/sdir1" fileName="sdir1"/>
+ <directory filePath="C:/TDD_testdir/dir3/sdir2" fileName="sdir2"/>
+</directory>
