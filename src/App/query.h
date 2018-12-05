@@ -2,12 +2,14 @@
 #define QUERY_H
 
 #include <QObject>
+#include <QDomDocument>
 
-class Query : public QObject
+class Query
 {
-    Q_OBJECT
+
 public:
-    explicit Query(QObject *parent = 0);
+    explicit Query();
+    QDomDocument* queryDirectory(QString directory);
 
 signals:
 

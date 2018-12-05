@@ -1,5 +1,5 @@
 <directory filePath="C:/TDD_testdir/dir6" fileName="dir6">
  <directory filePath="C:/TDD_testdir/dir6/sdir1" fileName="sdir1"/>
- <file size="C:/TDD_testdir/dir6/file1" filePath="C:/TDD_testdir/dir6/file1" fileName="file1" suffix="file1"/>
- <file size="C:/TDD_testdir/dir6/file2" filePath="C:/TDD_testdir/dir6/file2" fileName="file2" suffix="file2"/>
+ <file suffix="file1" filePath="C:/TDD_testdir/dir6/file1" size="C:/TDD_testdir/dir6/file1" fileName="file1"/>
+ <file suffix="file2" filePath="C:/TDD_testdir/dir6/file2" size="C:/TDD_testdir/dir6/file2" fileName="file2"/>
 </directory>

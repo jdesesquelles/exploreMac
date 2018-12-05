@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
 CXX           = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
-DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk -mmacosx-version-min=10.7 -Wall -W -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk -mmacosx-version-min=10.7 -Wall -W -fPIC $(DEFINES)
-INCPATH       = -I. -I/Applications/Qt/5.5/clang_64/lib/QtWidgets.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtGui.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/AGL.framework/Headers -I. -I/Applications/Qt/5.5/clang_64/mkspecs/macx-clang -F/Applications/Qt/5.5/clang_64/lib
+INCPATH       = -I. -I/Applications/Qt/5.5/clang_64/lib/QtWidgets.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtGui.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/AGL.framework/Headers -I. -I/Applications/Qt/5.5/clang_64/mkspecs/macx-clang -F/Applications/Qt/5.5/clang_64/lib
 QMAKE         = /Applications/Qt/5.5/clang_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -36,7 +36,7 @@ DISTNAME      = App1.0.0
 DISTDIR = /Users/ebal/UnitTestProject/prj6/template-subidrs-with-test/src/App/.tmp/App1.0.0
 LINK          = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 LFLAGS        = -headerpad_max_install_names -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk -mmacosx-version-min=10.7 -Wl,-rpath,/Applications/Qt/5.5/clang_64/lib
-LIBS          = $(SUBLIBS) -F/Applications/Qt/5.5/clang_64/lib -framework QtWidgets -framework QtGui -framework QtCore -framework DiskArbitration -framework IOKit -framework OpenGL -framework AGL 
+LIBS          = $(SUBLIBS) -F/Applications/Qt/5.5/clang_64/lib -framework QtWidgets -framework QtGui -framework QtCore -framework DiskArbitration -framework IOKit -framework QtXml -framework OpenGL -framework AGL 
 AR            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar cq
 RANLIB        = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib -s
 SED           = sed
@@ -50,13 +50,11 @@ OBJECTS_DIR   = ./
 
 SOURCES       = main.cpp \
 		mainwindow.cpp \
-		query.cpp moc_mainwindow.cpp \
-		moc_query.cpp
+		query.cpp moc_mainwindow.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		query.o \
-		moc_mainwindow.o \
-		moc_query.o
+		moc_mainwindow.o
 DIST          = /Applications/Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		/Applications/Qt/5.5/clang_64/mkspecs/qdevice.pri \
 		/Applications/Qt/5.5/clang_64/mkspecs/features/device_config.prf \
@@ -391,6 +389,7 @@ Makefile: App.pro /Applications/Qt/5.5/clang_64/mkspecs/macx-clang/qmake.conf /A
 		App.pro \
 		/Applications/Qt/5.5/clang_64/lib/QtWidgets.framework/QtWidgets.prl \
 		/Applications/Qt/5.5/clang_64/lib/QtGui.framework/QtGui.prl \
+		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/QtXml.prl \
 		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/QtCore.prl
 	$(QMAKE) -spec macx-clang CONFIG+=debug CONFIG+=x86_64 CONFIG+=qml_debug -o Makefile App.pro
 /Applications/Qt/5.5/clang_64/mkspecs/features/spec_pre.prf:
@@ -539,6 +538,7 @@ Makefile: App.pro /Applications/Qt/5.5/clang_64/mkspecs/macx-clang/qmake.conf /A
 App.pro:
 /Applications/Qt/5.5/clang_64/lib/QtWidgets.framework/QtWidgets.prl:
 /Applications/Qt/5.5/clang_64/lib/QtGui.framework/QtGui.prl:
+/Applications/Qt/5.5/clang_64/lib/QtXml.framework/QtXml.prl:
 /Applications/Qt/5.5/clang_64/lib/QtCore.framework/QtCore.prl:
 qmake: FORCE
 	@$(QMAKE) -spec macx-clang CONFIG+=debug CONFIG+=x86_64 CONFIG+=qml_debug -o Makefile App.pro
@@ -596,18 +596,13 @@ compiler_objective_c_make_all:
 compiler_objective_c_clean:
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_query.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_query.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp
 moc_mainwindow.cpp: /Applications/Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
 		/Applications/Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		mainwindow.h
-	/Applications/Qt/5.5/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Applications/Qt/5.5/clang_64/mkspecs/macx-clang -I/Users/ebal/UnitTestProject/prj6/template-subidrs-with-test/src/App -I/Applications/Qt/5.5/clang_64/lib/QtWidgets.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtGui.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers -F/Applications/Qt/5.5/clang_64/lib mainwindow.h -o moc_mainwindow.cpp
-
-moc_query.cpp: /Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QObject \
-		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qobject.h \
-		query.h
-	/Applications/Qt/5.5/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Applications/Qt/5.5/clang_64/mkspecs/macx-clang -I/Users/ebal/UnitTestProject/prj6/template-subidrs-with-test/src/App -I/Applications/Qt/5.5/clang_64/lib/QtWidgets.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtGui.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers -F/Applications/Qt/5.5/clang_64/lib query.h -o moc_query.cpp
+	/Applications/Qt/5.5/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Applications/Qt/5.5/clang_64/mkspecs/macx-clang -I/Users/ebal/UnitTestProject/prj6/template-subidrs-with-test/src/App -I/Applications/Qt/5.5/clang_64/lib/QtWidgets.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtGui.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers -F/Applications/Qt/5.5/clang_64/lib mainwindow.h -o moc_mainwindow.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -644,14 +639,13 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 
 query.o: query.cpp query.h \
 		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QObject \
-		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qobject.h
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers/QDomDocument \
+		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers/qdom.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o query.o query.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
-
-moc_query.o: moc_query.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_query.o moc_query.cpp
 
 ####### Install
 

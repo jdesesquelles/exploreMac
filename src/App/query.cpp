@@ -1,7 +1,12 @@
 #include "query.h"
 
-Query::Query(QObject *parent) : QObject(parent)
+Query::Query()
 {
 
 }
 
+QDomDocument* Query::queryDirectory(QString directory)
+{
+    QDomDocument* doc = new QDomDocument();
+    return doc;
+}

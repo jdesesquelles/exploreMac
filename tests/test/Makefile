@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
 CXX           = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
-DEFINES       = -DSRCDIR=\"/Users/ebal/UnitTestProject/prj6/template-subidrs-with-test/tests/test/\" -DQT_QML_DEBUG -DQT_TESTLIB_LIB -DQT_XML_LIB -DQT_CORE_LIB -DQT_TESTCASE_BUILDDIR='"/Users/ebal/UnitTestProject/prj6/template-subidrs-with-test/tests/test"'
+DEFINES       = -DSRCDIR=\"/Users/ebal/UnitTestProject/prj6/template-subidrs-with-test/tests/test/\" -DQT_QML_DEBUG -DQT_TESTLIB_LIB -DQT_XML_LIB -DQT_XMLPATTERNS_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_TESTCASE_BUILDDIR='"/Users/ebal/UnitTestProject/prj6/template-subidrs-with-test/tests/test"'
 CFLAGS        = -pipe -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk -mmacosx-version-min=10.7 -Wall -W -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.7 -Wall -W -fPIC $(DEFINES)
-INCPATH       = -I. -I/Applications/Qt/5.5/clang_64/lib/QtTest.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Qt/5.5/clang_64/mkspecs/macx-clang -F/Applications/Qt/5.5/clang_64/lib
+INCPATH       = -I. -I/Applications/Qt/5.5/clang_64/lib/QtTest.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtXmlPatterns.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtNetwork.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Qt/5.5/clang_64/mkspecs/macx-clang -F/Applications/Qt/5.5/clang_64/lib
 QMAKE         = /Applications/Qt/5.5/clang_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -36,7 +36,7 @@ DISTNAME      = tst_testtest1.0.0
 DISTDIR = /Users/ebal/UnitTestProject/prj6/template-subidrs-with-test/tests/test/.tmp/tst_testtest1.0.0
 LINK          = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 LFLAGS        = -headerpad_max_install_names -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk -stdlib=libc++ -mmacosx-version-min=10.7 -F/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -weak_framework XCTest -Wl,-rpath,/Applications/Qt/5.5/clang_64/lib
-LIBS          = $(SUBLIBS) -F/Applications/Qt/5.5/clang_64/lib -framework QtTest -framework Security -framework ApplicationServices -framework IOKit -framework Foundation -framework QtCore -framework DiskArbitration -framework QtXml 
+LIBS          = $(SUBLIBS) -F/Applications/Qt/5.5/clang_64/lib -framework QtTest -framework Security -framework ApplicationServices -framework IOKit -framework Foundation -framework QtCore -framework DiskArbitration -framework QtXml -framework QtXmlPatterns -framework QtNetwork 
 AR            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar cq
 RANLIB        = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib -s
 SED           = sed
@@ -50,10 +50,15 @@ OBJECTS_DIR   = ./
 
 SOURCES       = tst_testtest.cpp \
 		xmloutput.cpp \
-		directoryhierarchy.cpp 
+		directoryhierarchy.cpp \
+		../../src/App/query.cpp \
+		filetree.cpp qrc_queries.cpp
 OBJECTS       = tst_testtest.o \
 		xmloutput.o \
-		directoryhierarchy.o
+		directoryhierarchy.o \
+		query.o \
+		filetree.o \
+		qrc_queries.o
 DIST          = /Applications/Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		/Applications/Qt/5.5/clang_64/mkspecs/qdevice.pri \
 		/Applications/Qt/5.5/clang_64/mkspecs/features/device_config.prf \
@@ -199,9 +204,13 @@ DIST          = /Applications/Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		/Applications/Qt/5.5/clang_64/mkspecs/features/yacc.prf \
 		/Applications/Qt/5.5/clang_64/mkspecs/features/lex.prf \
 		test.pro xmloutput.h \
-		directoryhierarchy.h tst_testtest.cpp \
+		directoryhierarchy.h \
+		../../src/App/query.h \
+		filetree.h tst_testtest.cpp \
 		xmloutput.cpp \
-		directoryhierarchy.cpp
+		directoryhierarchy.cpp \
+		../../src/App/query.cpp \
+		filetree.cpp
 QMAKE_TARGET  = tst_testtest
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = tst_testtest
@@ -389,8 +398,11 @@ Makefile: test.pro /Applications/Qt/5.5/clang_64/mkspecs/macx-clang/qmake.conf /
 		/Applications/Qt/5.5/clang_64/mkspecs/features/yacc.prf \
 		/Applications/Qt/5.5/clang_64/mkspecs/features/lex.prf \
 		test.pro \
+		queries.qrc \
 		/Applications/Qt/5.5/clang_64/lib/QtTest.framework/QtTest.prl \
 		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/QtXml.prl \
+		/Applications/Qt/5.5/clang_64/lib/QtXmlPatterns.framework/QtXmlPatterns.prl \
+		/Applications/Qt/5.5/clang_64/lib/QtNetwork.framework/QtNetwork.prl \
 		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/QtCore.prl
 	$(QMAKE) -spec macx-clang CONFIG+=debug CONFIG+=x86_64 CONFIG+=qml_debug -o Makefile test.pro
 /Applications/Qt/5.5/clang_64/mkspecs/features/spec_pre.prf:
@@ -538,8 +550,11 @@ Makefile: test.pro /Applications/Qt/5.5/clang_64/mkspecs/macx-clang/qmake.conf /
 /Applications/Qt/5.5/clang_64/mkspecs/features/yacc.prf:
 /Applications/Qt/5.5/clang_64/mkspecs/features/lex.prf:
 test.pro:
+queries.qrc:
 /Applications/Qt/5.5/clang_64/lib/QtTest.framework/QtTest.prl:
 /Applications/Qt/5.5/clang_64/lib/QtXml.framework/QtXml.prl:
+/Applications/Qt/5.5/clang_64/lib/QtXmlPatterns.framework/QtXmlPatterns.prl:
+/Applications/Qt/5.5/clang_64/lib/QtNetwork.framework/QtNetwork.prl:
 /Applications/Qt/5.5/clang_64/lib/QtCore.framework/QtCore.prl:
 qmake: FORCE
 	@$(QMAKE) -spec macx-clang CONFIG+=debug CONFIG+=x86_64 CONFIG+=qml_debug -o Makefile test.pro
@@ -555,8 +570,9 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents xmloutput.h directoryhierarchy.h $(DISTDIR)/
-	$(COPY_FILE) --parents tst_testtest.cpp xmloutput.cpp directoryhierarchy.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents queries.qrc $(DISTDIR)/
+	$(COPY_FILE) --parents xmloutput.h directoryhierarchy.h ../../src/App/query.h filetree.h $(DISTDIR)/
+	$(COPY_FILE) --parents tst_testtest.cpp xmloutput.cpp directoryhierarchy.cpp ../../src/App/query.cpp filetree.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -579,8 +595,13 @@ check: first
 
 compiler_objective_c_make_all:
 compiler_objective_c_clean:
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_queries.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_queries.cpp
+qrc_queries.cpp: queries.qrc \
+		queries/wholeTree.xq
+	/Applications/Qt/5.5/clang_64/bin/rcc -name queries queries.qrc -o qrc_queries.cpp
+
 compiler_moc_header_make_all:
 compiler_moc_header_clean:
 compiler_moc_source_make_all: tst_testtest.moc
@@ -599,6 +620,8 @@ tst_testtest.moc: /Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QSt
 		/Applications/Qt/5.5/clang_64/lib/QtTest.framework/Headers/qtesteventloop.h \
 		/Applications/Qt/5.5/clang_64/lib/QtTest.framework/Headers/qtestsystem.h \
 		/Applications/Qt/5.5/clang_64/lib/QtTest.framework/Headers/qttestversion.h \
+		/Applications/Qt/5.5/clang_64/lib/QtXmlPatterns.framework/Headers/QXmlQuery \
+		/Applications/Qt/5.5/clang_64/lib/QtXmlPatterns.framework/Headers/qxmlquery.h \
 		directoryhierarchy.h \
 		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QDir \
 		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qdir.h \
@@ -606,8 +629,21 @@ tst_testtest.moc: /Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QSt
 		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qfile.h \
 		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QDebug \
 		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qdebug.h \
+		xmloutput.h \
+		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers/QDomImplementation \
+		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers/qdom.h \
+		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers/QDomDocument \
+		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers/QDomElement \
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QIODevice \
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qiodevice.h \
+		../../src/App/query.h \
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QObject \
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		filetree.h \
+		/Applications/Qt/5.5/clang_64/lib/QtXmlPatterns.framework/Headers/QXmlFormatter \
+		/Applications/Qt/5.5/clang_64/lib/QtXmlPatterns.framework/Headers/qxmlformatter.h \
 		tst_testtest.cpp
-	/Applications/Qt/5.5/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Applications/Qt/5.5/clang_64/mkspecs/macx-clang -I/Users/ebal/UnitTestProject/prj6/template-subidrs-with-test/tests/test -I/Applications/Qt/5.5/clang_64/lib/QtTest.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers -F/Applications/Qt/5.5/clang_64/lib tst_testtest.cpp -o tst_testtest.moc
+	/Applications/Qt/5.5/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Applications/Qt/5.5/clang_64/mkspecs/macx-clang -I/Users/ebal/UnitTestProject/prj6/template-subidrs-with-test/tests/test -I/Applications/Qt/5.5/clang_64/lib/QtTest.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtXmlPatterns.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtNetwork.framework/Headers -I/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers -F/Applications/Qt/5.5/clang_64/lib tst_testtest.cpp -o tst_testtest.moc
 
 compiler_rez_source_make_all:
 compiler_rez_source_clean:
@@ -617,7 +653,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_source_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_source_clean 
 
 ####### Compile
 
@@ -634,6 +670,8 @@ tst_testtest.o: tst_testtest.cpp /Applications/Qt/5.5/clang_64/lib/QtCore.framew
 		/Applications/Qt/5.5/clang_64/lib/QtTest.framework/Headers/qtesteventloop.h \
 		/Applications/Qt/5.5/clang_64/lib/QtTest.framework/Headers/qtestsystem.h \
 		/Applications/Qt/5.5/clang_64/lib/QtTest.framework/Headers/qttestversion.h \
+		/Applications/Qt/5.5/clang_64/lib/QtXmlPatterns.framework/Headers/QXmlQuery \
+		/Applications/Qt/5.5/clang_64/lib/QtXmlPatterns.framework/Headers/qxmlquery.h \
 		directoryhierarchy.h \
 		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QDir \
 		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qdir.h \
@@ -641,6 +679,19 @@ tst_testtest.o: tst_testtest.cpp /Applications/Qt/5.5/clang_64/lib/QtCore.framew
 		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qfile.h \
 		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QDebug \
 		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qdebug.h \
+		xmloutput.h \
+		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers/QDomImplementation \
+		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers/qdom.h \
+		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers/QDomDocument \
+		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers/QDomElement \
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QIODevice \
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qiodevice.h \
+		../../src/App/query.h \
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QObject \
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		filetree.h \
+		/Applications/Qt/5.5/clang_64/lib/QtXmlPatterns.framework/Headers/QXmlFormatter \
+		/Applications/Qt/5.5/clang_64/lib/QtXmlPatterns.framework/Headers/qxmlformatter.h \
 		tst_testtest.moc
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tst_testtest.o tst_testtest.cpp
 
@@ -648,8 +699,15 @@ xmloutput.o: xmloutput.cpp xmloutput.h \
 		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers/QDomImplementation \
 		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers/qdom.h \
 		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers/QDomDocument \
+		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers/QDomElement \
 		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QString \
-		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qstring.h
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qstring.h \
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QFile \
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qfile.h \
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QIODevice \
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qiodevice.h \
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QDebug \
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qdebug.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o xmloutput.o xmloutput.cpp
 
 directoryhierarchy.o: directoryhierarchy.cpp directoryhierarchy.h \
@@ -662,6 +720,19 @@ directoryhierarchy.o: directoryhierarchy.cpp directoryhierarchy.h \
 		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QDebug \
 		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qdebug.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o directoryhierarchy.o directoryhierarchy.cpp
+
+query.o: ../../src/App/query.cpp ../../src/App/query.h \
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/QObject \
+		/Applications/Qt/5.5/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers/QDomDocument \
+		/Applications/Qt/5.5/clang_64/lib/QtXml.framework/Headers/qdom.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o query.o ../../src/App/query.cpp
+
+filetree.o: filetree.cpp filetree.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o filetree.o filetree.cpp
+
+qrc_queries.o: qrc_queries.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_queries.o qrc_queries.cpp
 
 ####### Install
 

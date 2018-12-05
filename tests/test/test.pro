@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += testlib xml
+QT       += testlib xml xmlpatterns
 
 QT       -= gui
 
@@ -18,9 +18,19 @@ TEMPLATE = app
 
 SOURCES += tst_testtest.cpp \
     xmloutput.cpp \
-    directoryhierarchy.cpp
+    directoryhierarchy.cpp \
+    ../../src/App/query.cpp \
+    filetree.cpp
+
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
     xmloutput.h \
-    directoryhierarchy.h
+    directoryhierarchy.h \
+    ../../src/App/query.h \
+    filetree.h
+
+DISTFILES +=
+
+RESOURCES += \
+    queries.qrc
